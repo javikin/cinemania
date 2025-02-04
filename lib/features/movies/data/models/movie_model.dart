@@ -1,5 +1,5 @@
 import 'package:cinemania/features/movies/data/datasources/genres_api.dart';
-import 'package:cinemania/features/movies/data/models/movie.dart';
+import 'package:cinemania/features/movies/domain/entities/movie.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'movie_model.g.dart';

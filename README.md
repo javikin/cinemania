@@ -4,7 +4,7 @@
 This project is a Flutter application that lists the most popular movies using TheMovieDB API.
 
 ## 🚀 Features
-- []List popular movies
+- [X]List popular movies
 - []Search movies
 - []Pagination support
 - []Multi-language support (EN, ES)

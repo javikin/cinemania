@@ -1,3 +1,4 @@
+import 'package:cinemania/core/constants/constants.dart';
 import 'package:cinemania/core/logging/app_logger.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -7,7 +8,7 @@ class DioConfig {
     final String apiKey = dotenv.env['API_KEY'] ?? '';
 
     final dio = Dio(BaseOptions(
-      baseUrl: "https://api.themoviedb.org/3",
+      baseUrl: Constants.apiMovieDBBaseUrl,
       connectTimeout: Duration(seconds: 30),
       receiveTimeout: Duration(seconds: 30),
       headers: {"Authorization": "Bearer $apiKey"},
