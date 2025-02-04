@@ -1,0 +1,46 @@
+graph TD;
+    subgraph Presentation
+        UI["UI (Widgets)"] -->|Uses| StateManagement["State Management (Riverpod)"]
+    end
+
+    subgraph Domain
+        UseCases["Use Cases"] -->|Calls| Entities["Entities"]
+    end
+
+    subgraph Data
+        Repositories["Repositories"] -->|Fetches data from| DataSources["Data Sources"]
+        DataSources -->|Consumes API| API["Movies API (Dio)"]
+        DataSources -->|Local Cache| LocalDB["SharedPreferences"]
+    end
+
+    subgraph External API
+        TheMovieDB["The Movie DB API"]
+    end
+
+    API -->|Retrieves data| TheMovieDB
+
+    UI -->|Requests data| StateManagement
+    StateManagement -->|Executes use cases| UseCases
+    UseCases -->|Requests data| Repositories
+    Repositories -->|Gets info from| DataSources
+
+    subgraph Features
+        Movies["Movies Feature"] -->|Uses| Presentation
+        Movies -->|Uses| Domain
+        Movies -->|Uses| Data
+        Search["Search Feature"] -->|Uses| Presentation
+        Search -->|Uses| Domain
+        Search -->|Uses| Data
+    end
+
+    subgraph Core
+        ThemeConfig["App Theme"]
+        LocalizationConfig["Localization"]
+        NetworkConfig["Network Config"]
+        ErrorHandling["Error Handling"]
+    end
+
+    UI -->|Uses| ThemeConfig
+    UI -->|Uses| LocalizationConfig
+    DataSources -->|Uses| NetworkConfig
+    API -->|Uses| ErrorHandling
