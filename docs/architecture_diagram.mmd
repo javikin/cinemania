@@ -11,6 +11,7 @@ graph TD;
         Repositories["Repositories"] -->|Fetches data from| DataSources["Data Sources"]
         DataSources -->|Consumes API| API["Movies API (Dio)"]
         DataSources -->|Local Cache| LocalDB["SharedPreferences"]
+        DataSources -->|Fetches Genres| GenresApi["Genres API (Dio)"]
     end
 
     subgraph External API
@@ -18,6 +19,7 @@ graph TD;
     end
 
     API -->|Retrieves data| TheMovieDB
+    GenresApi -->|Retrieves genres| TheMovieDB
 
     UI -->|Requests data| StateManagement
     StateManagement -->|Executes use cases| UseCases
@@ -44,3 +46,4 @@ graph TD;
     UI -->|Uses| LocalizationConfig
     DataSources -->|Uses| NetworkConfig
     API -->|Uses| ErrorHandling
+    GenresApi -->|Uses| ErrorHandling
