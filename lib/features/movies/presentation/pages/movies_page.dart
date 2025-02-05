@@ -1,11 +1,11 @@
 import 'package:cinemania/core/l10n/locale_provider.dart';
 import 'package:cinemania/core/widgets/cine_app_bar.dart';
+import 'package:cinemania/core/widgets/cine_search_bar.dart';
 import 'package:cinemania/features/movies/presentation/providers/movies_provider.dart';
 import 'package:cinemania/features/movies/presentation/widgets/movie_card.dart';
 import 'package:cinemania/generated/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:neubrutalism_ui/neubrutalism_ui.dart';
 
 class MoviesPage extends ConsumerStatefulWidget {
   const MoviesPage({super.key});
@@ -57,12 +57,12 @@ class _MoviesPageState extends ConsumerState<MoviesPage> {
         children: [
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: NeuSearchBar(
-              searchController: _searchController,
-              keyboardType: TextInputType.text,
-              hintText: l10n.searchHint,
-              searchBarColor: const Color(0xFFFFFFFF),
-              borderRadius: BorderRadius.circular(12),
+            child: SizedBox(
+              width: double.infinity,
+              child: CineSearchBar(
+                controller: _searchController,
+                hintText: l10n.searchHint,
+              ),
             ),
           ),
           Expanded(
