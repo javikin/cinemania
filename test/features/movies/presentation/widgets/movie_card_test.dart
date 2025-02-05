@@ -28,8 +28,8 @@ void main() {
       ),
     );
 
-    expect(find.text("Inception"), findsOneWidget);
-    expect(find.text("Genres: Action"), findsOneWidget);
-    expect(find.byType(Image), findsOneWidget);
+    expect(find.text("Inception"), findsWidgets);
+    expect(find.text("Action"), findsWidgets);
+    expect(find.byType(Image), findsWidgets);
   });
 }

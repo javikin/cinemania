@@ -5,6 +5,7 @@ This project is a Flutter application that lists the most popular movies using T
 
 ## 🚀 Features
 - [X]List popular movies
+- [X]Display movie details
 - []Search movies
 - []Pagination support
 - []Multi-language support (EN, ES)

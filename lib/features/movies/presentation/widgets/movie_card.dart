@@ -1,5 +1,6 @@
 import 'package:cinemania/core/constants/constants.dart';
 import 'package:cinemania/features/movies/domain/entities/movie.dart';
+import 'package:cinemania/features/movies/presentation/pages/movie_details_page.dart';
 import 'package:flutter/material.dart';
 
 class MovieCard extends StatelessWidget {
@@ -19,6 +20,14 @@ class MovieCard extends StatelessWidget {
         ),
         title: Text(movie.title),
         subtitle: Text(movie.genreNames.join(', ')),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => MovieDetailsPage(movie: movie),
+            ),
+          );
+        },
       ),
     );
   }
