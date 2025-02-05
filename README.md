@@ -22,15 +22,23 @@ For a detailed view of the architecture in **Mermaid format**, see [architecture
    ```sh
    git clone https://github.com/javikin/cinemania.git
    ```
-2. Install dependencies:
+
+2. Environment Configuration
+   - Create a `.env` file in the root of the project.
+   - Add your TMDb API key:
+      ```env
+      API_KEY=your_tmdb_api_key_here
+      ```
+   
+3. Install dependencies:
    ```sh
    flutter pub get
    ```
-3. Run the application:
+4. Run the application:
    ```sh
    flutter run
    ```
-4. Run the tests:
+5. Run the tests:
    ```sh
    flutter test
    ```
