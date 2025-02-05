@@ -47,5 +47,14 @@ If you make changes to the `.arb` files or need to regenerate translations, run 
    ```
 This command will automatically generate the required classes for translations and place them in the lib/generated/l10n directory
 
+## 📱 Download the App
+
+![App Preview](docs/app_preview.gif)
+
+You can download the app for testing via the following links:
+
+- **Android**: [Download APK](https://i.diawi.com/QaPQ1B)
+- **iOS**: [Download App](https://i.diawi.com/A5rMba)
+
 ## 📄 License
 This project is open-source under the MIT License.
