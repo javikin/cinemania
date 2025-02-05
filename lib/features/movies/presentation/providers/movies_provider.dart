@@ -14,3 +14,14 @@ final moviesProvider = FutureProvider<List<Movie>>((ref) async {
   final repository = ref.watch(moviesRepositoryProvider);
   return repository.getPopularMovies(language: "en-US");
 });
+
+final searchQueryProvider = StateProvider<String>((ref) => "");
+
+final filteredMoviesProvider = Provider<List<Movie>>((ref) {
+  final List<Movie> movies = ref.watch(moviesProvider).maybeWhen(data: (data) => data, orElse: () => []);
+  final query = ref.watch(searchQueryProvider).toLowerCase();
+
+  if (query.isEmpty) return movies;
+
+  return movies.where((movie) => movie.title.toLowerCase().contains(query)).toList();
+});

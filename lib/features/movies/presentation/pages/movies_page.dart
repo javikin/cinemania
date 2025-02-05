@@ -8,17 +8,31 @@ class MoviesPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final moviesState = ref.watch(moviesProvider);
+    final filteredMovies = ref.watch(filteredMoviesProvider);
 
     return Scaffold(
       appBar: AppBar(title: const Text("Popular Movies")),
-      body: moviesState.when(
-        data: (movies) => ListView.builder(
-          itemCount: movies.length,
-          itemBuilder: (context, index) => MovieCard(movie: movies[index]),
-        ),
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, stackTrace) => Center(child: Text("Error: $error")),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: TextField(
+              decoration: const InputDecoration(
+                labelText: "Search Movies",
+                border: OutlineInputBorder(),
+              ),
+              onChanged: (value) => ref.read(searchQueryProvider.notifier).state = value,
+            ),
+          ),
+          Expanded(
+            child: filteredMovies.isNotEmpty
+                ? ListView.builder(
+                    itemCount: filteredMovies.length,
+                    itemBuilder: (context, index) => MovieCard(movie: filteredMovies[index]),
+                  )
+                : const Center(child: Text("No movies found")),
+          ),
+        ],
       ),
     );
   }

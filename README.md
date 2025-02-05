@@ -6,7 +6,7 @@ This project is a Flutter application that lists the most popular movies using T
 ## 🚀 Features
 - [X]List popular movies
 - [X]Display movie details
-- []Search movies
+- [X]Search movies
 - []Pagination support
 - []Multi-language support (EN, ES)
 - []Dark mode
@@ -28,6 +28,10 @@ For a detailed view of the architecture in **Mermaid format**, see [architecture
 3. Run the application:
    ```sh
    flutter run
+   ```
+4. Run the tests:
+   ```sh
+   flutter test
    ```
 
 ## 📄 License
