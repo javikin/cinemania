@@ -18,6 +18,7 @@ dependencies:
   json_annotation: ^4.9.0
   flutter_dotenv: ^5.2.1
   talker_flutter: ^4.6.7
+  neubrutalism_ui: ^2.0.2
 
 
 dev_dependencies:

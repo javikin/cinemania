@@ -1,10 +1,11 @@
 import 'package:cinemania/core/l10n/locale_provider.dart';
-import 'package:cinemania/core/theme/theme_provider.dart';
+import 'package:cinemania/core/widgets/cine_app_bar.dart';
 import 'package:cinemania/features/movies/presentation/providers/movies_provider.dart';
 import 'package:cinemania/features/movies/presentation/widgets/movie_card.dart';
 import 'package:cinemania/generated/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:neubrutalism_ui/neubrutalism_ui.dart';
 
 class MoviesPage extends ConsumerStatefulWidget {
   const MoviesPage({super.key});
@@ -15,11 +16,18 @@ class MoviesPage extends ConsumerStatefulWidget {
 
 class _MoviesPageState extends ConsumerState<MoviesPage> {
   final ScrollController _scrollController = ScrollController();
+  late final TextEditingController _searchController;
 
   @override
   void initState() {
     super.initState();
     _scrollController.addListener(_onScroll);
+
+    _searchController = TextEditingController();
+    _searchController.addListener(() {
+      ref.read(searchQueryProvider.notifier).state = _searchController.text;
+    });
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final locale = ref.read(localeProvider);
       ref.read(moviesNotifierProvider.notifier).loadMovies(language: locale.toLanguageTag());
@@ -34,12 +42,6 @@ class _MoviesPageState extends ConsumerState<MoviesPage> {
     }
   }
 
-  void _changeLanguage(String newLocale) {
-    ref.read(localeProvider.notifier).changeLocale(newLocale);
-    ref.read(moviesNotifierProvider.notifier).resetMovies();
-    ref.read(moviesNotifierProvider.notifier).loadMovies(language: newLocale);
-  }
-
   @override
   Widget build(BuildContext context) {
     final filteredMovies = ref.watch(filteredMoviesProvider);
@@ -47,37 +49,20 @@ class _MoviesPageState extends ConsumerState<MoviesPage> {
     final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.popularMovies),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.language),
-            onPressed: () {
-              final currentLocale = ref.read(localeProvider);
-              final newLocale = currentLocale.languageCode == 'en' ? 'es' : 'en';
-              _changeLanguage(newLocale);
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.brightness_6),
-            onPressed: () {
-              ref.read(themeNotifierProvider.notifier).toggleTheme();
-            },
-          ),
-        ],
+      appBar: CineAppBar(
+        title: l10n.popularMovies,
+        showActions: true,
       ),
       body: Column(
         children: [
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: TextField(
-              decoration: InputDecoration(
-                labelText: l10n.searchHint,
-                border: const OutlineInputBorder(),
-              ),
-              onChanged: (value) {
-                ref.read(searchQueryProvider.notifier).state = value;
-              },
+            child: NeuSearchBar(
+              searchController: _searchController,
+              keyboardType: TextInputType.text,
+              hintText: l10n.searchHint,
+              searchBarColor: const Color(0xFFFFFFFF),
+              borderRadius: BorderRadius.circular(12),
             ),
           ),
           Expanded(
@@ -105,6 +90,7 @@ class _MoviesPageState extends ConsumerState<MoviesPage> {
   @override
   void dispose() {
     _scrollController.dispose();
+    _searchController.dispose();
     super.dispose();
   }
 }
