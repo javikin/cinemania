@@ -35,5 +35,17 @@ For a detailed view of the architecture in **Mermaid format**, see [architecture
    flutter test
    ```
 
+## Localization (i18n)
+
+This project supports multiple languages using Flutter Localizations. To generate the translations, ensure the `.arb` files are located in the directory defined as `lib/core/i10n/`.
+
+### Generate Translations
+If you make changes to the `.arb` files or need to regenerate translations, run the following command:
+
+   ```sh
+   flutter gen-l10n
+   ```
+This command will automatically generate the required classes for translations and place them in the lib/generated/l10n directory
+
 ## 📄 License
 This project is open-source under the MIT License.

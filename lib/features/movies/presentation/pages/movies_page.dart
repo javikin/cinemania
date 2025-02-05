@@ -1,5 +1,7 @@
+import 'package:cinemania/core/l10n/locale_provider.dart';
 import 'package:cinemania/features/movies/presentation/providers/movies_provider.dart';
 import 'package:cinemania/features/movies/presentation/widgets/movie_card.dart';
+import 'package:cinemania/generated/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -18,32 +20,54 @@ class _MoviesPageState extends ConsumerState<MoviesPage> {
     super.initState();
     _scrollController.addListener(_onScroll);
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(moviesNotifierProvider.notifier).loadMovies(language: "en-US");
+      final locale = ref.read(localeProvider);
+      ref.read(moviesNotifierProvider.notifier).loadMovies(language: locale.toLanguageTag());
     });
   }
 
   void _onScroll() {
     if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent &&
         !_scrollController.position.outOfRange) {
-      ref.read(moviesNotifierProvider.notifier).loadMovies(language: "en-US");
+      final locale = ref.read(localeProvider);
+      ref.read(moviesNotifierProvider.notifier).loadMovies(language: locale.toLanguageTag());
     }
+  }
+
+  void _changeLanguage(Locale newLocale) {
+    ref.read(localeProvider.notifier).state = newLocale;
+
+    ref.read(moviesNotifierProvider.notifier).resetMovies();
+    ref.read(moviesNotifierProvider.notifier).loadMovies(language: newLocale.toLanguageTag());
   }
 
   @override
   Widget build(BuildContext context) {
     final filteredMovies = ref.watch(filteredMoviesProvider);
     final state = ref.watch(moviesNotifierProvider);
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
-      appBar: AppBar(title: const Text("Popular Movies")),
+      appBar: AppBar(
+        title: Text(l10n.popularMovies),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.language),
+            onPressed: () {
+              final locale = ref.read(localeProvider);
+              final newLocale = locale.toLanguageTag() == 'en-US' ? const Locale('es', 'MX') : const Locale('en', 'US');
+              _changeLanguage(newLocale);
+            },
+          ),
+        ],
+      ),
       body: Column(
         children: [
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: TextField(
-              decoration: const InputDecoration(
-                labelText: "Search Movies",
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                labelText: l10n.searchHint,
+                border: const OutlineInputBorder(),
               ),
               onChanged: (value) {
                 ref.read(searchQueryProvider.notifier).state = value;

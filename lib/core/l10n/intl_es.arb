@@ -1,0 +1,8 @@
+{
+  "@@locale": "es",
+  "appTitle": "Cinemania",
+  "popularMovies": "Películas Populares",
+  "searchHint": "Buscar Películas",
+  "loading": "Cargando...",
+  "error": "Ocurrió un error. Por favor, inténtalo de nuevo."
+}

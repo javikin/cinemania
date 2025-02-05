@@ -1,5 +1,6 @@
 import 'package:cinemania/core/constants/constants.dart';
 import 'package:cinemania/features/movies/domain/entities/movie.dart';
+import 'package:cinemania/generated/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class MovieDetailsPage extends StatelessWidget {
@@ -9,6 +10,8 @@ class MovieDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: AppBar(title: Text(movie.title)),
       body: SingleChildScrollView(
@@ -28,15 +31,11 @@ class MovieDetailsPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    movie.title,
-                  ),
+                  Text(movie.title),
                   const SizedBox(height: 8),
                   Text(movie.genreNames.join(', ')),
                   const SizedBox(height: 8),
-                  Text("Release Date: ${movie.releaseDate}"),
-                  const SizedBox(height: 16),
-                  Text("Overview"),
+                  Text(movie.releaseDate),
                   const SizedBox(height: 8),
                   Text(movie.overview),
                 ],

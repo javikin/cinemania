@@ -1,0 +1,8 @@
+{
+  "@@locale": "en",
+  "appTitle": "Cinemania",
+  "popularMovies": "Popular Movies",
+  "searchHint": "Search Movies",
+  "loading": "Loading...",
+  "error": "An error occurred. Please try again."
+}

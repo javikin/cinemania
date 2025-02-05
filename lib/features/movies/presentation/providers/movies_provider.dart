@@ -38,6 +38,10 @@ class MoviesNotifier extends StateNotifier<MoviesState> {
       state = state.copyWith(isLoading: false);
     }
   }
+
+  void resetMovies() {
+    state = MoviesState();
+  }
 }
 
 final moviesNotifierProvider = StateNotifierProvider<MoviesNotifier, MoviesState>((ref) {

@@ -1,5 +1,6 @@
 import 'package:cinemania/features/movies/domain/entities/movie.dart';
 import 'package:cinemania/features/movies/presentation/pages/movie_details_page.dart';
+import 'package:cinemania/generated/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -17,13 +18,15 @@ void main() {
 
     await tester.pumpWidget(
       MaterialApp(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
         home: MovieDetailsPage(movie: movie),
       ),
     );
 
     expect(find.text("Inception"), findsWidgets);
     expect(find.text("Action, Sci-Fi"), findsWidgets);
-    expect(find.text("Release Date: 2010-07-16"), findsWidgets);
+    expect(find.text("2010-07-16"), findsWidgets);
     expect(find.text("A thief who steals corporate secrets"), findsWidgets);
 
     final poster = find.byType(Image);
