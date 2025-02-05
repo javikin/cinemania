@@ -11,8 +11,14 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await dotenv.load();
+  final initialLocale = await LocaleNotifier.initializeLocale();
 
-  runApp(const ProviderScope(child: MyApp()));
+  runApp(ProviderScope(
+    overrides: [
+      localeProvider.overrideWith((ref) => initialLocale),
+    ],
+    child: MyApp(),
+  ));
 }
 
 class MyApp extends ConsumerWidget {
@@ -21,7 +27,7 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final locale = ref.watch(localeProvider);
-    final themeMode = ref.watch(themeProvider);
+    final themeMode = ref.watch(themeNotifierProvider);
 
     return MaterialApp(
       title: 'Cinemania',

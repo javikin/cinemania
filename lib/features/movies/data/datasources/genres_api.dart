@@ -8,7 +8,7 @@ class GenresApi {
 
   GenresApi(this.dio);
 
-  Future<void> fetchGenres({String language = 'en-US'}) async {
+  Future<void> fetchGenres({required String language}) async {
     lastLanguageUsed = language;
     if (_genresCacheByLanguage.containsKey(language)) return;
 

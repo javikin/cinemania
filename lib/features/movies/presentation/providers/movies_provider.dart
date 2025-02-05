@@ -41,6 +41,7 @@ class MoviesNotifier extends StateNotifier<MoviesState> {
 
   void resetMovies() {
     state = MoviesState();
+    _currentPage = 1;
   }
 }
 

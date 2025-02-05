@@ -8,9 +8,9 @@ This project is a Flutter application that lists the most popular movies using T
 - [X]Display movie details
 - [X]Search movies
 - [X]Pagination support
-- []Multi-language support (EN, ES)
-- []Dark mode
-- []Local Storage
+- [X]Multi-language support (EN, ES)
+- [X]Dark mode
+- [X]Local Storage
 
 ## 🏗️ Architecture Diagram
 ![Architecture Diagram](docs/architecture_diagram.png)

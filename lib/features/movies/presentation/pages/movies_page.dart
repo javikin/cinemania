@@ -34,11 +34,10 @@ class _MoviesPageState extends ConsumerState<MoviesPage> {
     }
   }
 
-  void _changeLanguage(Locale newLocale) {
-    ref.read(localeProvider.notifier).state = newLocale;
-
+  void _changeLanguage(String newLocale) {
+    ref.read(localeProvider.notifier).changeLocale(newLocale);
     ref.read(moviesNotifierProvider.notifier).resetMovies();
-    ref.read(moviesNotifierProvider.notifier).loadMovies(language: newLocale.toLanguageTag());
+    ref.read(moviesNotifierProvider.notifier).loadMovies(language: newLocale);
   }
 
   @override
@@ -54,15 +53,15 @@ class _MoviesPageState extends ConsumerState<MoviesPage> {
           IconButton(
             icon: const Icon(Icons.language),
             onPressed: () {
-              final locale = ref.read(localeProvider);
-              final newLocale = locale.toLanguageTag() == 'en-US' ? const Locale('es', 'MX') : const Locale('en', 'US');
+              final currentLocale = ref.read(localeProvider);
+              final newLocale = currentLocale.languageCode == 'en' ? 'es' : 'en';
               _changeLanguage(newLocale);
             },
           ),
           IconButton(
             icon: const Icon(Icons.brightness_6),
             onPressed: () {
-              ref.read(themeProvider.notifier).toggleTheme();
+              ref.read(themeNotifierProvider.notifier).toggleTheme();
             },
           ),
         ],
