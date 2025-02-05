@@ -60,7 +60,7 @@ void main() {
           requestOptions: RequestOptions(path: ""),
         ));
 
-    final movies = await moviesApi.getPopularMovies(language: "en-US");
+    final movies = await moviesApi.getPopularMovies(language: "en-US", page: 1);
 
     expect(movies, isA<List<MovieModel>>());
     expect(movies.length, 3);
@@ -73,6 +73,6 @@ void main() {
         requestOptions: RequestOptions(path: ""),
         response: Response(statusCode: 500, requestOptions: RequestOptions(path: ""))));
 
-    expect(() => moviesApi.getPopularMovies(language: "en-US"), throwsA(isA<Exception>()));
+    expect(() => moviesApi.getPopularMovies(language: "en-US", page: 1), throwsA(isA<Exception>()));
   });
 }

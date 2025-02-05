@@ -6,9 +6,13 @@ class MoviesRepository {
 
   MoviesRepository(this.api);
 
-  Future<List<Movie>> getPopularMovies({String language = 'en-US'}) async {
+  Future<List<Movie>> getPopularMovies({
+    required int page,
+    required String language,
+  }) async {
     return await api.getPopularMovies(
       language: language,
+      page: page,
     );
   }
 }

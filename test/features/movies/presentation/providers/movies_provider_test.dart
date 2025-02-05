@@ -1,10 +1,17 @@
 import 'package:cinemania/features/movies/domain/entities/movie.dart';
+import 'package:cinemania/features/movies/domain/usecases/get_popular_movies.dart';
+import 'package:cinemania/features/movies/presentation/providers/get_popular_movies_provider.dart';
 import 'package:cinemania/features/movies/presentation/providers/movies_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
+
+class MockGetPopularMovies extends Mock implements GetPopularMovies {}
 
 void main() {
   late ProviderContainer container;
+  late MockGetPopularMovies mockGetPopularMovies;
+
   final movies = [
     Movie(
       id: 1,
@@ -36,34 +43,57 @@ void main() {
   ];
 
   setUp(() {
+    mockGetPopularMovies = MockGetPopularMovies();
     container = ProviderContainer(overrides: [
-      moviesProvider.overrideWith((ref) async => movies),
+      getPopularMoviesProvider.overrideWithValue(mockGetPopularMovies),
+      moviesNotifierProvider.overrideWith((ref) {
+        return MoviesNotifier(mockGetPopularMovies);
+      }),
     ]);
+
+    when(() => mockGetPopularMovies(language: any(named: "language"), page: any(named: "page")))
+        .thenAnswer((_) async => movies);
+  });
+
+  tearDown(() {
+    container.dispose();
   });
 
   test('filteredMoviesProvider filters movies based on search query', () async {
-    List<Movie>? filteredMovies;
-    container.listen<List<Movie>>(filteredMoviesProvider, (previous, next) {
-      filteredMovies = next;
-    });
-
+    await container.read(moviesNotifierProvider.notifier).loadMovies(language: "en-US");
     container.read(searchQueryProvider.notifier).state = "Inception";
-    await Future.delayed(const Duration(milliseconds: 100));
-
-    expect(filteredMovies!.length, 1);
-    expect(filteredMovies!.first.title, "Inception");
+    final filteredMovies = container.read(filteredMoviesProvider);
+    expect(filteredMovies.length, 1);
+    expect(filteredMovies.first.title, "Inception");
   });
 
   test('filteredMoviesProvider returns all movies when query is empty', () async {
-    List<Movie>? filteredMovies;
-    container.listen<List<Movie>>(filteredMoviesProvider, (previous, next) {
-      filteredMovies = next;
-    });
-
+    await container.read(moviesNotifierProvider.notifier).loadMovies(language: "en-US");
     container.read(searchQueryProvider.notifier).state = "";
+    final filteredMovies = container.read(filteredMoviesProvider);
+    expect(filteredMovies.length, movies.length);
+  });
 
-    await Future.delayed(const Duration(milliseconds: 100));
+  test('moviesNotifierProvider loads movies correctly', () async {
+    await container.read(moviesNotifierProvider.notifier).loadMovies(language: "en-US");
+    final state = container.read(moviesNotifierProvider);
+    expect(state.movies, movies);
+  });
 
-    expect(filteredMovies!.length, movies.length);
+  test('loadMovies sets isLoading to true while loading', () async {
+    final notifier = container.read(moviesNotifierProvider.notifier);
+
+    when(() => mockGetPopularMovies(language: "en-US", page: 1)).thenAnswer((_) async => Future.delayed(
+          const Duration(milliseconds: 100),
+          () => <Movie>[],
+        ));
+
+    expect(container.read(moviesNotifierProvider).isLoading, isFalse);
+
+    notifier.loadMovies(language: "en-US");
+    expect(container.read(moviesNotifierProvider).isLoading, isTrue);
+
+    await Future.delayed(const Duration(milliseconds: 200));
+    expect(container.read(moviesNotifierProvider).isLoading, isFalse);
   });
 }

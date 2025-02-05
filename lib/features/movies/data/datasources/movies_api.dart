@@ -11,7 +11,8 @@ class MoviesApi {
   MoviesApi(this.dio, this.genresApi);
 
   Future<List<MovieModel>> getPopularMovies({
-    String language = 'en-US',
+    required int page,
+    required String language,
   }) async {
     try {
       await genresApi.fetchGenres(language: language);
@@ -22,7 +23,7 @@ class MoviesApi {
           "include_adult": false,
           "include_video": false,
           "language": language,
-          "page": 1,
+          "page": page,
           "sort_by": "popularity.desc"
         },
       );
