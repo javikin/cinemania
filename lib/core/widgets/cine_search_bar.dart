@@ -18,6 +18,10 @@ class CineSearchBar extends ConsumerWidget {
       searchController: controller,
       keyboardType: TextInputType.text,
       hintText: hintText,
+      hintStyle: const TextStyle(
+        color: Colors.black,
+      ),
+      leadingIcon: const Icon(Icons.search, color: Colors.black),
       searchBarColor: const Color(0xFFFFFFFF),
       borderRadius: BorderRadius.circular(12),
     );

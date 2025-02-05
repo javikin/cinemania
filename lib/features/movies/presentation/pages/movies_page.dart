@@ -53,37 +53,37 @@ class _MoviesPageState extends ConsumerState<MoviesPage> {
         title: l10n.popularMovies,
         showActions: true,
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: SizedBox(
-              width: double.infinity,
-              child: CineSearchBar(
-                controller: _searchController,
-                hintText: l10n.searchHint,
+      body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+          child: Column(
+            children: [
+              SizedBox(
+                width: double.infinity,
+                child: CineSearchBar(
+                  controller: _searchController,
+                  hintText: l10n.searchHint,
+                ),
               ),
-            ),
-          ),
-          Expanded(
-            child: ListView.builder(
-              controller: _scrollController,
-              itemCount: filteredMovies.length + (state.isLoading ? 1 : 0),
-              itemBuilder: (context, index) {
-                if (index == filteredMovies.length && state.isLoading) {
-                  return const Center(
-                    child: Padding(
-                      padding: EdgeInsets.only(bottom: 16.0),
-                      child: CircularProgressIndicator(),
-                    ),
-                  );
-                }
-                return MovieCard(movie: filteredMovies[index]);
-              },
-            ),
-          ),
-        ],
-      ),
+              const SizedBox(height: 16),
+              Expanded(
+                child: ListView.builder(
+                  controller: _scrollController,
+                  itemCount: filteredMovies.length + (state.isLoading ? 1 : 0),
+                  itemBuilder: (context, index) {
+                    if (index == filteredMovies.length && state.isLoading) {
+                      return const Center(
+                        child: Padding(
+                          padding: EdgeInsets.only(bottom: 16.0),
+                          child: CircularProgressIndicator(),
+                        ),
+                      );
+                    }
+                    return MovieCard(movie: filteredMovies[index]);
+                  },
+                ),
+              ),
+            ],
+          )),
     );
   }
 
