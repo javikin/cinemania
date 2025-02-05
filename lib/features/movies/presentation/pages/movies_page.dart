@@ -1,4 +1,5 @@
 import 'package:cinemania/core/l10n/locale_provider.dart';
+import 'package:cinemania/core/theme/theme_provider.dart';
 import 'package:cinemania/features/movies/presentation/providers/movies_provider.dart';
 import 'package:cinemania/features/movies/presentation/widgets/movie_card.dart';
 import 'package:cinemania/generated/l10n/app_localizations.dart';
@@ -56,6 +57,12 @@ class _MoviesPageState extends ConsumerState<MoviesPage> {
               final locale = ref.read(localeProvider);
               final newLocale = locale.toLanguageTag() == 'en-US' ? const Locale('es', 'MX') : const Locale('en', 'US');
               _changeLanguage(newLocale);
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.brightness_6),
+            onPressed: () {
+              ref.read(themeProvider.notifier).toggleTheme();
             },
           ),
         ],

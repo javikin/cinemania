@@ -1,4 +1,5 @@
 import 'package:cinemania/core/l10n/locale_provider.dart';
+import 'package:cinemania/core/theme/theme_provider.dart';
 import 'package:cinemania/features/movies/presentation/pages/movies_page.dart';
 import 'package:cinemania/generated/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,7 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final locale = ref.watch(localeProvider);
+    final themeMode = ref.watch(themeProvider);
 
     return MaterialApp(
       title: 'Cinemania',
@@ -35,6 +37,8 @@ class MyApp extends ConsumerWidget {
       ],
       locale: locale,
       theme: ThemeData.light(),
+      darkTheme: ThemeData.dark(),
+      themeMode: themeMode,
       home: const MoviesPage(),
     );
   }
